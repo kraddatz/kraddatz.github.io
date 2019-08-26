@@ -1,8 +1,8 @@
-## Welcome to Yapam
+# Welcome to Yapam
 
 As the name suggests, yapam is simply yet another password manager, but a little different.
 
-### "Architecture"
+## "Architecture"
 
 Yapam consists of two (three) main parts: server and client. The third part ([keycloak]) is used just for authentication
 and can be replaced with any other authorization server in the future.
@@ -12,24 +12,24 @@ used for encrypting the secrets.
 
 The client will be able to synchronize the secrets with the server and decrypt them with its private key.
 
-### Security
+## Security
 
-#### Oauth
+### Oauth
 
 I decided to not implement the authorization by myself, but use a market ready open source solution: keycloak.
 
-#### Encryption and Decryption
+### Encryption and Decryption
 
 I chose [openPGP] for encryption, as it allows the usage of multiple public keys to encrypt the symmetric key. Therefor 
 you can share your secrets with others simply by adding their public key to the encryption mechanism. 
 
-### The secrets
+## The secrets
 
 The model of a secret differs between client and server. Both of them share the title and some common properties like 
 version or creationDate. The most important property, the data of the secret, is (after decryption) fully exposed on the
 client, but encrypted on the server.
 
-#### Server model
+### Server model
 
 ```json
 {
@@ -42,7 +42,7 @@ client, but encrypted on the server.
 }
 ```
 
-#### Client model
+### Client model
 
 ```json
 {
@@ -60,7 +60,7 @@ client, but encrypted on the server.
 }
 ```
 
-#### Types
+### Types
 
 Currently there are fife different secret types with their own specific data fields:
 
