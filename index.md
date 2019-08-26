@@ -1,37 +1,63 @@
-## Welcome to GitHub Pages
+## Welcome to Yapam
 
-You can use the [editor on GitHub](https://github.com/kraddatz/yapam/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+As the name suggests, yapam is simply yet another password manager, but a little different.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### "Architecture"
 
-### Markdown
+Yapam consists of two (three) main parts: server and client. The third part ([keycloak]) is used just for authentication
+and can be replaced with any other authorization server in the future.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The [server] basically is a big key-value-store for users and secrets, and can also hold the users public key that is 
+used for encrypting the secrets.
 
-```markdown
-Syntax highlighted code block
+The client will be able to synchronize the secrets with the server and decrypt them with its private key.
 
-# Header 1
-## Header 2
-### Header 3
+### Security
 
-- Bulleted
-- List
+#### Oauth
 
-1. Numbered
-2. List
+I decided to not implement the authorization by myself, but use a market ready open source solution: keycloak.
 
-**Bold** and _Italic_ and `Code` text
+#### Encryption and Decryption
 
-[Link](url) and ![Image](src)
+I chose [openPGP] for encryption, as it allows the usage of multiple public keys to encrypt the symmetric key. Therefor 
+you can share your secrets with others simply by adding their public key to the encryption mechanism. 
+
+### The secrets
+
+The model of a secret differs between client and server. Both of them share the title and some common properties like 
+version or creationDate. The most important property, the data of the secret, is (after decryption) fully exposed on the
+client, but encrypted on the server.
+
+#### Server
+```json
+{
+  "creationDate": "2019-08-26T06:35:44.232Z",
+  "data": "somesecretencrypteddata",
+  "secretId": "39d09caa-f1e7-4f14-bebe-d471d5213527",
+  "title": "title",
+  "type": "LOGIN",
+  "version": 0
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+#### Client
+```json
+{
+  "creationDate": "2019-08-26T06:35:44.232Z",
+  "data": {
+    "username": "username",
+    "password": "password",
+    "url": "http://localhost:8080",
+    "notes": "geheim"
+  },
+  "secretId": "39d09caa-f1e7-4f14-bebe-d471d5213527",
+  "title": "title",
+  "type": "LOGIN",
+  "version": 0
+}
+```
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kraddatz/yapam/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[keycloak]: https://www.keycloak.org/
+[server]: https://github.com/kraddatz/yapam-server
+[openPGP]: https://www.openpgp.org/
