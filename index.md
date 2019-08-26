@@ -29,7 +29,8 @@ The model of a secret differs between client and server. Both of them share the 
 version or creationDate. The most important property, the data of the secret, is (after decryption) fully exposed on the
 client, but encrypted on the server.
 
-#### Server
+#### Server model
+
 ```json
 {
   "creationDate": "2019-08-26T06:35:44.232Z",
@@ -41,7 +42,8 @@ client, but encrypted on the server.
 }
 ```
 
-#### Client
+#### Client model
+
 ```json
 {
   "creationDate": "2019-08-26T06:35:44.232Z",
@@ -57,6 +59,16 @@ client, but encrypted on the server.
   "version": 0
 }
 ```
+
+#### Types
+
+Currently there are fife different secret types with their own specific data fields:
+
+* CREDITCARD: Name on card, cardnumber, expirationDate, cvc, notes
+* LOGIN: username, password, url, notes
+* ID: Name, Street, Number, zip code, city, country, notes
+* WIFI: ssid, password, notes
+* NOTE: notes
 
 [keycloak]: https://www.keycloak.org/
 [server]: https://github.com/kraddatz/yapam-server
