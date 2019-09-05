@@ -88,6 +88,7 @@
                                                     As keycloak, yapam is also available on <a href="https://hub.docker.com/r/chronm/yapam-server">docker</a>:
                                                     <code class="language-shell">docker pull chronm/yapam-server</code>. <br>
                                                     Yapam needs some initial configuration to start, so provide the following information to yapam for a clean installation: <br>
+													&nbsp;&nbsp; * YAPAM_IDENTITY-PROVIDER=KEYCLOAK <br>
                                                     &nbsp;&nbsp; * YAPAM_MAIL_HOST= the hostname of your email provider. <br>
                                                     &nbsp;&nbsp; * YAPAM_MAIL_PORT= the port of your email provider. <br>
                                                     &nbsp;&nbsp; * YAPAM_MAIL_USERNAME= the username of your email provider. <br>
@@ -97,8 +98,10 @@
                                                     &nbsp;&nbsp; * YAPAM_MAIL_MESSAGE-SENDER= what should be the sender of the message. <br>
                                                     &nbsp;&nbsp; * YAPAM_DATASOURCE_URL= This is the url for the database. It should look something like this "jdbc:mysql:{hostname}/{databaseName}?user={username}&password={password}" <br>
                                                     &nbsp;&nbsp; * YAPAM_HOST= This tells yapam on which host it runs. It will be used to generate links like "https://{hostname}" instead of "http://localhost:8080" <br>
-                                                    &nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER= Currently only FILESYSTEM is allowed <br>
-                                                    &nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER-CONFIG_ROOT-PATH= where should yapam store the uploaded files <br>
+													&nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER_TYPE=FILEYSTEM oder DROPBOX <br>
+													&nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER_FILESYSTEM_ROOT-PATH= where to store the secrets. In a docker environment this should be mounted into the container <br>
+													&nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER_DROPBOX_ROOT-PATH= where to store the secrets in dropbox <br>
+													&nbsp;&nbsp; * YAPAM_STORAGE-PROVIDER_DROPBOX_ACCESS-TOKEN= the access token for access to dropbox <br>
                                                 </p>
 											</section>
 
